@@ -2,4 +2,4 @@ bucket_definitions:
   global:
     data:
       - SELECT * FROM lists
-      - SELECT * FROM todos
+      - SELECT id FROM todos

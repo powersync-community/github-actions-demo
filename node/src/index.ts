@@ -39,11 +39,7 @@ const powerSync = new PowerSyncDatabase({
   database: { dbFilename: "example.sqlite" },
 });
 
-await powerSync.connect(new Connector(), {
-  params: {
-    test: "value"
-  }
-});
+await powerSync.connect(new Connector());
 await powerSync.init();
 await powerSync.waitForFirstSync();
 
