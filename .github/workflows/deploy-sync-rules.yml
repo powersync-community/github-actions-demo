@@ -30,6 +30,8 @@ jobs:
         env:
           AUTH_TOKEN: ${{ secrets.POWERSYNC_AUTH_TOKEN }}
           INSTANCE_ID: ${{ secrets.POWERSYNC_INSTANCE_ID }}
+          PROJECT_ID: ${{ secrets.POWERSYNC_PROJECT_ID }}
+          ORG_ID: ${{ secrets.POWERSYNC_ORG_ID }}
         run: |
           npx powersync instance sync-rules deploy --filePath ./sync-rules.yaml -s
 
