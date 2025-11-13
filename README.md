@@ -11,15 +11,13 @@ This repository shows how to deploy PowerSync sync rules to an instance whenever
   - `POWERSYNC_PROJECT_ID`
   - `POWERSYNC_ORG_ID`
 
-## Getting the Auth Token
+## Getting the GitHub secrets
 
 1. Sign in to the PowerSync dashboard.
-2. Generate a personal access token with permissions to deploy sync rules.
+2. Generate a personal access token.
 3. Store the token in your repository secrets as `POWERSYNC_AUTH_TOKEN`.
 4. Copy your PowerSync instance ID from the dashboard and store it as `POWERSYNC_INSTANCE_ID`.
 5. From the dashboard URL, copy your project ID and organization ID and store them as `POWERSYNC_PROJECT_ID` and `POWERSYNC_ORG_ID`.
-
-With the token and instance ID in place, the workflow will authenticate and deploy your sync rules whenever the `sync-rules.yaml` file changes on the `main` branch.
 
 ## Node Sample
 
