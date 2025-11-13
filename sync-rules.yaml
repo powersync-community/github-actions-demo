@@ -1,5 +1,5 @@
 bucket_definitions:
   global:
     data:
-      - SELECT id FROM lists
+      - SELECT * FROM lists
       - SELECT * FROM todos
