@@ -24,7 +24,7 @@ jobs:
           node-version-file: node/.nvmrc
 
       - name: Install PowerSync CLI
-        run: npm install -g @powersync/cli
+        run: npm install powersync
 
       - name: Deploy sync rules
         env:
