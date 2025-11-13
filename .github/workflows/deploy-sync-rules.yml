@@ -1,0 +1,35 @@
+name: Deploy Sync Rules
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "sync-rules.yaml"
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: node/.nvmrc
+
+      - name: Install PowerSync CLI
+        run: npm install -g @powersync/cli
+
+      - name: Deploy sync rules
+        env:
+          AUTH_TOKEN: ${{ secrets.POWERSYNC_AUTH_TOKEN }}
+          INSTANCE_ID: ${{ secrets.POWERSYNC_INSTANCE_ID }}
+        run: |
+          npx powersync instance sync-rules deploy --filePath ./sync-rules.yaml -s
+
