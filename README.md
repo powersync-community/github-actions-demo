@@ -1,6 +1,6 @@
 ## GitHub Actions Sync Rules Demo
 
-This repository shows how to deploy PowerSync sync rules to an instance whenever a push to the `main` branch includes changes to `sync-rules.yaml`. The included GitHub Actions workflow installs the PowerSync CLI and runs the deployment command automatically.
+This repository shows how to deploy PowerSync Sync Rules to an instance whenever a push to the `main` branch includes changes to `sync-rules.yaml`. The included GitHub Actions workflow installs the PowerSync CLI and runs the deployment command automatically.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ This repository shows how to deploy PowerSync sync rules to an instance whenever
 
 ## Getting the GitHub secrets
 
-1. Sign in to the PowerSync dashboard.
+1. Sign in to the PowerSync Dashboard.
 2. Generate a personal access token.
 3. Store the token in your repository secrets as `POWERSYNC_AUTH_TOKEN`.
 4. Copy your PowerSync instance ID from the dashboard and store it as `POWERSYNC_INSTANCE_ID`.
