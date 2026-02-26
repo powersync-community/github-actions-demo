@@ -1,0 +1,1483 @@
+{
+  "commands": {
+    "destroy": {
+      "aliases": [],
+      "args": {},
+      "description": "Permanently delete the linked PowerSync Cloud instance and its data. Requires --confirm=yes.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --confirm=yes"
+      ],
+      "flags": {
+        "confirm": {
+          "description": "Set to \"yes\" to confirm destruction of the instance.",
+          "name": "confirm",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "yes"
+          ],
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "destroy",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "[Cloud only] Permanently destroy the linked Cloud instance.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "destroy.js"
+      ]
+    },
+    "login": {
+      "aliases": [],
+      "args": {},
+      "description": "Store a PowerSync auth token (PAT) in secure storage so later Cloud commands run without passing a token. If secure storage is unavailable, login can optionally store it in a local config file. Use PS_ADMIN_TOKEN env var for CI or scripts instead.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "login",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Store auth token for Cloud commands.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "login.js"
+      ]
+    },
+    "logout": {
+      "aliases": [],
+      "args": {},
+      "description": "Remove the stored PowerSync auth token from secure storage or local fallback config storage. Cloud commands will no longer use stored credentials until you run login again.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "logout",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Remove stored auth token.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "logout.js"
+      ]
+    },
+    "status": {
+      "aliases": [],
+      "args": {},
+      "description": "Fetch instance diagnostics: connection status, active and deploying sync config, replication state. Output as human-readable, JSON, or YAML. Cloud and self-hosted.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --output=json",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id>"
+      ],
+      "flags": {
+        "output": {
+          "description": "Output format: human-readable, json, or yaml.",
+          "name": "output",
+          "default": "human",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "human",
+            "json",
+            "yaml"
+          ],
+          "type": "option"
+        },
+        "api-url": {
+          "description": "[Self-hosted] PowerSync API URL. When set, context is treated as self-hosted (exclusive with --instance-id). Resolved: flag → cli.yaml → API_URL.",
+          "exclusive": [
+            "instance-id",
+            "org-id",
+            "project-id"
+          ],
+          "helpGroup": "SELF_HOSTED_PROJECT",
+          "name": "api-url",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "[Cloud] PowerSync Cloud instance ID (BSON ObjectID). When set, context is treated as cloud (exclusive with --api-url). Resolved: flag → cli.yaml → INSTANCE_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "[Cloud] Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs. Resolved: flag → cli.yaml → ORG_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "[Cloud] Project ID. Resolved: flag → cli.yaml → PROJECT_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "status",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Show instance diagnostics (connections, sync config, replication).",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "status.js"
+      ]
+    },
+    "stop": {
+      "aliases": [],
+      "args": {},
+      "description": "Deactivate the linked PowerSync Cloud instance. Requires --confirm=yes. Restart later with powersync deploy.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --confirm=yes"
+      ],
+      "flags": {
+        "confirm": {
+          "description": "Set to \"yes\" to confirm stopping the instance.",
+          "name": "confirm",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "yes"
+          ],
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "stop",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "[Cloud only] Stop the linked Cloud instance (restart with deploy).",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "stop.js"
+      ]
+    },
+    "validate": {
+      "aliases": [],
+      "args": {},
+      "description": "Run validation checks on local config: config schema, database connections, and sync config. Requires a linked instance. Works with Cloud and self-hosted.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --output=json",
+        "<%= config.bin %> <%= command.id %> --api-url=https://powersync.example.com"
+      ],
+      "flags": {
+        "output": {
+          "description": "Output format: human-readable, json, or yaml.",
+          "name": "output",
+          "default": "human",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "human",
+            "json",
+            "yaml"
+          ],
+          "type": "option"
+        },
+        "api-url": {
+          "description": "[Self-hosted] PowerSync API URL. When set, context is treated as self-hosted (exclusive with --instance-id). Resolved: flag → cli.yaml → API_URL.",
+          "exclusive": [
+            "instance-id",
+            "org-id",
+            "project-id"
+          ],
+          "helpGroup": "SELF_HOSTED_PROJECT",
+          "name": "api-url",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "[Cloud] PowerSync Cloud instance ID (BSON ObjectID). When set, context is treated as cloud (exclusive with --api-url). Resolved: flag → cli.yaml → INSTANCE_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "[Cloud] Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs. Resolved: flag → cli.yaml → ORG_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "[Cloud] Project ID. Resolved: flag → cli.yaml → PROJECT_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "validate",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Validate config schema, connections, and sync config before deploy.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "validate.js"
+      ]
+    },
+    "deploy": {
+      "aliases": [],
+      "args": {},
+      "description": "Deploy local config (service.yaml, sync config) to the linked PowerSync Cloud instance.\nValidates connections and sync config before deploying.\nSee also powersync deploy sync-config to deploy only sync config changes.\nSee also powersync deploy service-config to deploy only service config changes.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id>"
+      ],
+      "flags": {
+        "deploy-timeout": {
+          "description": "Seconds to wait after scheduling a deploy before timing out while polling status (default 300 seconds).",
+          "name": "deploy-timeout",
+          "default": 300,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "deploy",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "[Cloud only] Deploy local config to the linked Cloud instance (connections + auth + sync config).",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "deploy",
+        "index.js"
+      ]
+    },
+    "deploy:service-config": {
+      "aliases": [],
+      "args": {},
+      "description": "Deploy only service config changes (without sync config updates).",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id>"
+      ],
+      "flags": {
+        "deploy-timeout": {
+          "description": "Seconds to wait after scheduling a deploy before timing out while polling status (default 300 seconds).",
+          "name": "deploy-timeout",
+          "default": 300,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "deploy:service-config",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "[Cloud only] Deploy only local service config to the linked Cloud instance.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "deploy",
+        "service-config.js"
+      ]
+    },
+    "deploy:sync-config": {
+      "aliases": [],
+      "args": {},
+      "description": "Deploy only sync config changes.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id>"
+      ],
+      "flags": {
+        "deploy-timeout": {
+          "description": "Seconds to wait after scheduling a deploy before timing out while polling status (default 300 seconds).",
+          "name": "deploy-timeout",
+          "default": 300,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "deploy:sync-config",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "[Cloud only] Deploy only local sync config to the linked Cloud instance.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "deploy",
+        "sync-config.js"
+      ]
+    },
+    "fetch:config": {
+      "aliases": [],
+      "args": {},
+      "description": "Retrieve the current instance config from PowerSync Cloud and print as YAML or JSON.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --output=json"
+      ],
+      "flags": {
+        "output": {
+          "description": "Output format: yaml or json.",
+          "name": "output",
+          "default": "yaml",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "json",
+            "yaml"
+          ],
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "fetch:config",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "[Cloud only] Print linked Cloud instance config (YAML or JSON).",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "fetch",
+        "config.js"
+      ]
+    },
+    "fetch": {
+      "aliases": [],
+      "args": {},
+      "description": "Subcommands: list Cloud instances in org/project (fetch instances), print instance config as YAML/JSON (fetch config), or show instance diagnostics (fetch status).",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hidden": true,
+      "hiddenAliases": [],
+      "id": "fetch",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "List instances, fetch config, or fetch instance diagnostics.",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "fetch",
+        "index.js"
+      ]
+    },
+    "fetch:instances": {
+      "aliases": [],
+      "args": {},
+      "description": "List PowerSync Cloud instances, grouped by organization and project.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --project-id=<id> --output=json"
+      ],
+      "flags": {
+        "org-id": {
+          "description": "Optional Organization ID. Defaults to all organizations.",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "output": {
+          "description": "Output format: human or json.",
+          "name": "output",
+          "default": "human",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "human",
+            "json"
+          ],
+          "type": "option"
+        },
+        "output-file": {
+          "description": "Optionally write instance information to a file.",
+          "name": "output-file",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Optional Project ID. Defaults to all projects in the org.",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "fetch:instances",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "[Cloud only] List Cloud instances in the current org/project.",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "fetch",
+        "instances.js"
+      ]
+    },
+    "fetch:status": {
+      "aliases": [],
+      "args": {},
+      "description": "Fetch instance diagnostics: connection status, active and deploying sync config, replication state. Output as human-readable, JSON, or YAML. Cloud and self-hosted.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --output=json",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id>"
+      ],
+      "flags": {
+        "output": {
+          "description": "Output format: human-readable, json, or yaml.",
+          "name": "output",
+          "default": "human",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "human",
+            "json",
+            "yaml"
+          ],
+          "type": "option"
+        },
+        "api-url": {
+          "description": "[Self-hosted] PowerSync API URL. When set, context is treated as self-hosted (exclusive with --instance-id). Resolved: flag → cli.yaml → API_URL.",
+          "exclusive": [
+            "instance-id",
+            "org-id",
+            "project-id"
+          ],
+          "helpGroup": "SELF_HOSTED_PROJECT",
+          "name": "api-url",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "[Cloud] PowerSync Cloud instance ID (BSON ObjectID). When set, context is treated as cloud (exclusive with --api-url). Resolved: flag → cli.yaml → INSTANCE_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "[Cloud] Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs. Resolved: flag → cli.yaml → ORG_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "[Cloud] Project ID. Resolved: flag → cli.yaml → PROJECT_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "fetch:status",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Show instance diagnostics (connections, sync config, replication).",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "status.js"
+      ]
+    },
+    "generate": {
+      "aliases": [],
+      "args": {},
+      "description": "Generate client artifacts: schema (from instance schema + sync config) or a development token for connecting clients. Cloud and self-hosted where supported.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hidden": true,
+      "hiddenAliases": [],
+      "id": "generate",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Generate client schema or development token.",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "generate",
+        "index.js"
+      ]
+    },
+    "generate:schema": {
+      "aliases": [],
+      "args": {},
+      "description": "Generate a client-side schema file from the instance database schema and sync config. Supports multiple output types (e.g. type, dart). Requires a linked instance. Cloud and self-hosted.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %> --output=ts --output-path=schema.ts",
+        "<%= config.bin %> <%= command.id %> --output=dart --output-path=lib/schema.dart --instance-id=<id> --project-id=<id>"
+      ],
+      "flags": {
+        "output": {
+          "description": "Output type: dart, dotNet, flutterFlow, js, jsLegacy, kotlin, swift, ts",
+          "name": "output",
+          "required": true,
+          "default": "type",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "options": [
+            "dart",
+            "dotNet",
+            "flutterFlow",
+            "js",
+            "jsLegacy",
+            "kotlin",
+            "swift",
+            "ts"
+          ],
+          "type": "option"
+        },
+        "output-path": {
+          "description": "Path to output the schema file.",
+          "name": "output-path",
+          "required": true,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "api-url": {
+          "description": "[Self-hosted] PowerSync API URL. When set, context is treated as self-hosted (exclusive with --instance-id). Resolved: flag → cli.yaml → API_URL.",
+          "exclusive": [
+            "instance-id",
+            "org-id",
+            "project-id"
+          ],
+          "helpGroup": "SELF_HOSTED_PROJECT",
+          "name": "api-url",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "[Cloud] PowerSync Cloud instance ID (BSON ObjectID). When set, context is treated as cloud (exclusive with --api-url). Resolved: flag → cli.yaml → INSTANCE_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "[Cloud] Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs. Resolved: flag → cli.yaml → ORG_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "[Cloud] Project ID. Resolved: flag → cli.yaml → PROJECT_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "generate:schema",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Generate client schema file from instance schema and sync config.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "generate",
+        "schema.js"
+      ]
+    },
+    "generate:token": {
+      "aliases": [],
+      "args": {},
+      "description": "Generate a JWT for development clients to connect to PowerSync. Cloud: uses instance dev-token API (allow_temporary_tokens must be enabled). Self-hosted: signs with shared secret from config. Requires --subject; optional --expires-in-seconds.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %> --subject=user-123",
+        "<%= config.bin %> <%= command.id %> --subject=user-123 --expires-in-seconds=3600"
+      ],
+      "flags": {
+        "expires-in-seconds": {
+          "description": "Expiration time in seconds. Default is 43,200 (12 hours).",
+          "name": "expires-in-seconds",
+          "required": false,
+          "default": 43200,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "kid": {
+          "description": "[Self-hosted only] Key ID of the key to use for signing the token. If not provided, the first key will be used.",
+          "name": "kid",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "subject": {
+          "description": "Subject of the token.",
+          "name": "subject",
+          "required": true,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "api-url": {
+          "description": "[Self-hosted] PowerSync API URL. When set, context is treated as self-hosted (exclusive with --instance-id). Resolved: flag → cli.yaml → API_URL.",
+          "exclusive": [
+            "instance-id",
+            "org-id",
+            "project-id"
+          ],
+          "helpGroup": "SELF_HOSTED_PROJECT",
+          "name": "api-url",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "[Cloud] PowerSync Cloud instance ID (BSON ObjectID). When set, context is treated as cloud (exclusive with --api-url). Resolved: flag → cli.yaml → INSTANCE_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "[Cloud] Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs. Resolved: flag → cli.yaml → ORG_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "[Cloud] Project ID. Resolved: flag → cli.yaml → PROJECT_ID.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "generate:token",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Generate a development JWT for client connections.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "generate",
+        "token.js"
+      ]
+    },
+    "init:cloud": {
+      "aliases": [],
+      "args": {},
+      "description": "Copy a Cloud template into a config directory (default powersync/). Edit service.yaml then run link cloud and deploy.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --directory=powersync --vscode"
+      ],
+      "flags": {
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "vscode": {
+          "description": "Configure the workspace with .vscode settings for YAML custom tags (!env).",
+          "name": "vscode",
+          "allowNo": false,
+          "type": "boolean"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "init:cloud",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Scaffold a PowerSync Cloud config directory from a template.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "init",
+        "cloud.js"
+      ]
+    },
+    "init": {
+      "aliases": [],
+      "args": {},
+      "description": "Scaffold a PowerSync config directory from a template. Use init cloud or init self-hosted. For Cloud, edit service.yaml then run link cloud and deploy.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hidden": true,
+      "hiddenAliases": [],
+      "id": "init",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Scaffold a PowerSync config directory from a template.",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "init",
+        "index.js"
+      ]
+    },
+    "init:self-hosted": {
+      "aliases": [],
+      "args": {},
+      "description": "Copy a self-hosted template into a config directory (default powersync/). Configure service.yaml with your self-hosted instance details.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --directory=powersync --vscode"
+      ],
+      "flags": {
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "vscode": {
+          "description": "Configure the workspace with .vscode settings for YAML custom tags (!env).",
+          "name": "vscode",
+          "allowNo": false,
+          "type": "boolean"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "init:self-hosted",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Scaffold a PowerSync self-hosted config directory from a template.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "init",
+        "self-hosted.js"
+      ]
+    },
+    "link:cloud": {
+      "aliases": [],
+      "args": {},
+      "description": "Write or update cli.yaml with a Cloud instance (instance-id, org-id, project-id). Use --create to create a new instance from service.yaml name/region and link it; omit --instance-id when using --create. Org ID is optional when the token has a single organization.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %> --project-id=<project-id>",
+        "<%= config.bin %> <%= command.id %> --create --project-id=<project-id>",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<project-id> --org-id=<org-id>"
+      ],
+      "flags": {
+        "create": {
+          "description": "Create a new Cloud instance in the given org and project, then link. Do not supply --instance-id when using --create.",
+          "name": "create",
+          "allowNo": false,
+          "type": "boolean"
+        },
+        "instance-id": {
+          "description": "PowerSync Cloud instance ID. Omit when using --create. Resolved: flag → INSTANCE_ID → cli.yaml.",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID. Optional when the token has a single org; required when the token has multiple orgs. Resolved: flag → ORG_ID → cli.yaml.",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Resolved: flag → PROJECT_ID → cli.yaml.",
+          "name": "project-id",
+          "required": true,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "link:cloud",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Link to a PowerSync Cloud instance (or create one with --create).",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "link",
+        "cloud.js"
+      ]
+    },
+    "link": {
+      "aliases": [],
+      "args": {},
+      "description": "Write cli.yaml so this directory's config is bound to a PowerSync instance. Once linked, commands use that instance without passing IDs. Use link cloud or link self-hosted.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hidden": true,
+      "hiddenAliases": [],
+      "id": "link",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Bind this directory to a Cloud or self-hosted instance (writes cli.yaml).",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "link",
+        "index.js"
+      ]
+    },
+    "link:self-hosted": {
+      "aliases": [],
+      "args": {},
+      "description": "Links a self hosted PowerSync instance by API URL.\nAPI Keys can be specified via input or specified in the PS_ADMIN_TOKEN environment variable.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %> --api-url=https://powersync.example.com"
+      ],
+      "flags": {
+        "api-url": {
+          "description": "Self-hosted PowerSync API base URL (e.g. https://powersync.example.com).",
+          "name": "api-url",
+          "required": true,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "link:self-hosted",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Link to a self-hosted PowerSync instance by API URL.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "link",
+        "self-hosted.js"
+      ]
+    },
+    "migrate": {
+      "aliases": [],
+      "args": {},
+      "description": "Migrate PowerSync config to newer formats. Use migrate sync-rules to convert Sync Rules to Sync Streams.",
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hidden": true,
+      "hiddenAliases": [],
+      "id": "migrate",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "Migrate config to newer formats (e.g. Sync Rules → Sync Streams).",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "migrate",
+        "index.js"
+      ]
+    },
+    "migrate:sync-rules": {
+      "aliases": [],
+      "args": {},
+      "description": "Migrates Sync Rules to Sync Streams",
+      "flags": {
+        "input-file": {
+          "description": "Path to the input sync rules file. Defaults to the project sync-config.yaml file.",
+          "name": "input-file",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "output-file": {
+          "description": "Path to the output sync streams file. Defaults to overwrite the input file.",
+          "name": "output-file",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "migrate:sync-rules",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Migrates Sync Rules to Sync Streams",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "migrate",
+        "sync-rules.js"
+      ]
+    },
+    "pull": {
+      "aliases": [],
+      "args": {},
+      "description": "Download current config from PowerSync Cloud into local YAML files. Use pull instance; pass --instance-id and --project-id when the directory is not yet linked (--org-id is optional when the token has a single organization).",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>"
+      ],
+      "flags": {},
+      "hasDynamicHelp": false,
+      "hidden": true,
+      "hiddenAliases": [],
+      "id": "pull",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "strict": true,
+      "summary": "[Cloud only] Download Cloud config into local service.yaml and sync-config.yaml.",
+      "enableJsonFlag": false,
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "pull",
+        "index.js"
+      ]
+    },
+    "pull:instance": {
+      "aliases": [],
+      "args": {},
+      "description": "Fetch an existing Cloud instance by ID: create the config directory if needed, write cli.yaml, and download service.yaml and sync-config.yaml. Pass --instance-id and --project-id when the directory is not yet linked; --org-id is optional when the token has a single organization. Cloud only.",
+      "examples": [
+        "<%= config.bin %> <%= command.id %>",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id>",
+        "<%= config.bin %> <%= command.id %> --instance-id=<id> --project-id=<id> --org-id=<org-id>"
+      ],
+      "flags": {
+        "directory": {
+          "description": "Directory containing PowerSync config. Defaults to \"powersync\". This is required if multiple powersync config files are present in subdirectories of the current working directory.",
+          "helpGroup": "PROJECT",
+          "name": "directory",
+          "default": "powersync",
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "instance-id": {
+          "dependsOn": [
+            "project-id"
+          ],
+          "description": "PowerSync Cloud instance ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "instance-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "org-id": {
+          "description": "Organization ID (optional). Defaults to the token’s single org when only one is available; pass explicitly if the token has multiple orgs.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "org-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        },
+        "project-id": {
+          "description": "Project ID. Manually passed if the current context has not been linked.",
+          "helpGroup": "CLOUD_PROJECT",
+          "name": "project-id",
+          "required": false,
+          "hasDynamicHelp": false,
+          "multiple": false,
+          "type": "option"
+        }
+      },
+      "hasDynamicHelp": false,
+      "hiddenAliases": [],
+      "id": "pull:instance",
+      "pluginAlias": "powersync",
+      "pluginName": "powersync",
+      "pluginType": "core",
+      "summary": "Pull an existing Cloud instance: link and download config into local service.yaml and sync-config.yaml.",
+      "isESM": true,
+      "relativePath": [
+        "dist",
+        "commands",
+        "pull",
+        "instance.js"
+      ]
+    }
+  },
+  "version": "0.0.0"
+}
