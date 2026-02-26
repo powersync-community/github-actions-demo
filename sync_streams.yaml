@@ -1,8 +1,8 @@
 streams:
   owned_lists:
       query: SELECT * FROM lists WHERE owner_id = auth.user_id()
-  list_todos:
-      query: SELECT * FROM todos WHERE list_id = subscription.parameter('list_id') AND list_id IN (SELECT id FROM lists WHERE owner_id = auth.user_id())
+  # list_todos:
+  #     query: SELECT * FROM todos WHERE list_id = subscription.parameter('list_id') AND list_id IN (SELECT id FROM lists WHERE owner_id = auth.user_id())
 
 config:
   # see https://docs.powersync.com/sync/advanced/compatibility
