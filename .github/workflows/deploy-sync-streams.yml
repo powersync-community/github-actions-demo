@@ -26,7 +26,7 @@ jobs:
 
       - name: Install PowerSync CLI
         # todo: replace with npm install powersync
-        run: npm install powersync-ja/temp-cli
+        run: npm install https://github.com/powersync-ja/temp-cli.git
 
       - name: Deploy sync config
         env:
