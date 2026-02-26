@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - new-cli
     paths:
       - "sync_streams.yaml"
 
@@ -24,6 +25,7 @@ jobs:
           node-version-file: node/.nvmrc
 
       - name: Install PowerSync CLI
+        # todo: replace with npm install powersync
         run: npm install powersync-ja/temp-cli
 
       - name: Deploy sync config
