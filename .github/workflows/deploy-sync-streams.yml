@@ -6,7 +6,7 @@ on:
       - main
       - new-cli
     paths:
-      - "sync_streams.yaml"
+      - "sync-config.yaml"
 
 permissions:
   contents: read
