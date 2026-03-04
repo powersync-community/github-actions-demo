@@ -25,8 +25,7 @@ jobs:
           node-version-file: node/.nvmrc
 
       - name: Install PowerSync CLI
-        # todo: replace with npm install powersync
-        run: npm install ./build-bundle
+        run: npm install powersync
 
       - name: Deploy sync config
         env:
