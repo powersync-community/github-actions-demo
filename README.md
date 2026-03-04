@@ -13,7 +13,7 @@ This repository shows how to deploy PowerSync sync config to an instance wheneve
 
 ## Getting the GitHub secrets
 
-1. Sign in to the PowerSync dashboard.
+1. Sign in to the PowerSync Dashboard.
 2. Generate a personal access token.
 3. Store the token in your repository secrets as `POWERSYNC_AUTH_TOKEN`.
 4. Copy your PowerSync instance ID from the dashboard and store it as `POWERSYNC_INSTANCE_ID`.
