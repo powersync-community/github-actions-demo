@@ -1,11 +1,12 @@
-name: Deploy Sync Rules
+name: Deploy Sync Streams
 
 on:
   push:
     branches:
       - main
+      - new-cli
     paths:
-      - "sync-rules.yaml"
+      - "sync-config.yaml"
 
 permissions:
   contents: read
@@ -26,12 +27,12 @@ jobs:
       - name: Install PowerSync CLI
         run: npm install powersync
 
-      - name: Deploy sync rules
+      - name: Deploy sync config
         env:
-          AUTH_TOKEN: ${{ secrets.POWERSYNC_AUTH_TOKEN }}
+          PS_ADMIN_TOKEN: ${{ secrets.POWERSYNC_AUTH_TOKEN }}
           INSTANCE_ID: ${{ secrets.POWERSYNC_INSTANCE_ID }}
           PROJECT_ID: ${{ secrets.POWERSYNC_PROJECT_ID }}
           ORG_ID: ${{ secrets.POWERSYNC_ORG_ID }}
         run: |
-          npx powersync instance sync-rules deploy --filePath ./sync-rules.yaml -s
+          npx powersync deploy sync-config --directory=.
 

@@ -1,6 +1,6 @@
-## GitHub Actions Sync Rules Demo
+## GitHub Actions Deploy Sync Streams Demo
 
-This repository shows how to deploy PowerSync Sync Rules to an instance whenever a push to the `main` branch includes changes to `sync-rules.yaml`. The included GitHub Actions workflow installs the PowerSync CLI and runs the deployment command automatically.
+This repository shows how to deploy PowerSync Sync Config to an instance whenever a push to the `main` branch includes changes to `sync_config.yaml`. The included GitHub Actions workflow installs the PowerSync CLI and runs the deployment command automatically.
 
 ## Prerequisites
 
